@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from 'react-router-dom';
-import Breadcrumb from "../Layout/Breadcrumb";
 import { createCard, readDeck } from "../utils/api";
+import BaseCard from "./BaseCard";
 
 function NewCard({update}) {
 
@@ -12,7 +12,6 @@ function NewCard({update}) {
       };
     const [ deck, setDeck ] = useState({});
     const [ card, setCard ] = useState({ ...initialCardState })
-    const history = useHistory();
 
     useEffect(() => {
         readDeck(deckId).then((data) => {
@@ -38,39 +37,9 @@ function NewCard({update}) {
   
   const deckName = deck ? deck.name : '';
   
-    const cardForm = (
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="front">
-          Front:
-          <textarea
-            id="front"
-            name="front"
-            onChange={handleChange}
-            value={card.front}
-          />
-        </label>
-        <br />
-        <label htmlFor="back">
-          Back:
-          <textarea
-            id="back"
-            name="back"
-            onChange={handleChange}
-            value={card.back}
-          />
-        </label>
-        <button type="submit">Save</button>
-        <button onClick={() => history.push(`/decks/${deckId}`)}>Done</button>
-      </form>
-    );
 
-  return (
-    <div>
-        <Breadcrumb deckName={deckName} deckUrl={`/decks/${deckId}`} currentText={`Add Card`} />
-        <h1>{deckName}: Add Card</h1>
-        {cardForm}
-    </div>
-  );
+  return <BaseCard handleSubmit={handleSubmit} handleChange={handleChange}
+  card={card} deckName={deckName} deckId={deckId}/>
 }
 
 export default NewCard;

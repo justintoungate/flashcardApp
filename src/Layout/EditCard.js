@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Breadcrumb from "../Layout/Breadcrumb";
 import { readCard, readDeck, updateCard } from "../utils/api";
 import { useHistory } from "react-router-dom";
+import BaseCard from "./BaseCard";
 
 function EditCard({update}) {
     const { deckId, cardId } = useParams();
@@ -45,41 +45,10 @@ function EditCard({update}) {
       })
     };
   
-    const cardForm = (
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="front">
-          Front:
-          <textarea
-            id="front"
-            name="front"
-            onChange={handleChange}
-            value={card.front}
-          />
-        </label>
-        <br />
-        <label htmlFor="back">
-          Back:
-          <textarea
-            id="back"
-            name="back"
-            onChange={handleChange}
-            value={card.back}
-          />
-        </label>
-        <button type="submit">Save</button>
-        <button onClick={() => history.push(`/decks/${deckId}`)}>Cancel</button>
-      </form>
-    );
-
     const deckName = deck ? deck.name : '';
 
-  return (
-    <div>
-        <Breadcrumb deckName={deckName} deckUrl={`/decks/${deckId}`} currentText={`Edit Card ${cardId}`} />
-        <h1>Edit Card</h1>
-        {cardForm}
-    </div>
-  );
+    return <BaseCard handleSubmit={handleSubmit} handleChange={handleChange}
+    card={card} deckName={deckName} deckId={deckId}/>
 }
 
 export default EditCard;
